@@ -7,7 +7,7 @@ const PostList = () => {
     const [posts, setPosts] = useState([])
 
     async function fetchPosts () {
-        const { data } = await axios.get('http://localhost:4000/posts')
+        const { data } = await axios.get('http://localhost:4002/posts')
         setPosts(Object.values(data))
     }
 
@@ -21,10 +21,10 @@ const PostList = () => {
                 {
                     !posts.length
                         ? <i>No posts yet...</i>
-                        : posts.map(({ id, title }) => <div className='card mx-1 card-body' key={id}>
+                        : posts.map(({ id, title, comments }) => <div className='card mx-1 card-body' key={id}>
                             {title}
                             <CommentCreate postId={id}/>
-                            <CommentList postId={id}/>
+                            <CommentList comments={comments}/>
                         </div>)
                 }
             </ul>
