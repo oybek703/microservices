@@ -5,4 +5,4 @@ metadata:
 spec:
   containers:
     - name: posts
-      image: yoriqulov/m_posts:0.0.1
+      image: yoriqulov/posts:0.0.1
