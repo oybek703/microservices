@@ -12,17 +12,17 @@ app.post('/events',async (req, res) => {
   events.push(event)
   try {
     // send post request posts service
-    await axios.post('http://localhost:4000/events', event)
+    await axios.post('http://posts-srv:4000/events', event)
     // send post request comments service
-    await axios.post('http://localhost:4001/events', event)
-    try {
+    // await axios.post('http://localhost:4001/events', event)
+    // try {
       // send post request query service
-      await axios.post('http://localhost:4002/events', event)
-    } catch (e) {
-      console.log(e.message)
-    }
+      // await axios.post('http://localhost:4002/events', event)
+    // } catch (e) {
+      // console.log(e.message)
+    // }
     // send post request moderation service
-    await axios.post('http://localhost:4003/events', event)
+    // await axios.post('http://localhost:4003/events', event)
   } catch (e) {
     console.log(e.message)
   }
