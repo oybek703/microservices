@@ -32,5 +32,9 @@ app.post('/events', (req, res) => {
 
 app.listen(
     4000,
-    () => console.log('Posts server is listening on port 4000...')
+    () => {
+        console.log('Version change log...')
+        console.log('And check log...')
+        console.log('Posts server is listening on port 4000...')
+    }
 )
