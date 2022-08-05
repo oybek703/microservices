@@ -8,51 +8,11 @@ build:
   local:
     push: false
   artifacts:
-    - image: yoriqulov/client
-      context: client
+    - image: yoriqulov/auth
+      context: auth
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: 'src/**/*.js'
-            dest: .
-    - image: yoriqulov/comments
-      context: comments
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '*.js'
-            dest: .
-    - image: yoriqulov/event-bus
-      context: event-bus
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '*.js'
-            dest: .
-    - image: yoriqulov/moderation
-      context: moderation
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '*.js'
-            dest: .
-    - image: yoriqulov/posts
-      context: posts
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '*.js'
-            dest: .
-    - image: yoriqulov/query
-      context: query
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '*.js'
+          - src: 'src/**/*.ts'
             dest: .

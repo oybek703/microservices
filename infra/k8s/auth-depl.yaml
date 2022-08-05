@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: client-depl
+  name: auth-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: client
+      app: auth
   template:
     metadata:
       labels:
-        app: client
+        app: auth
     spec:
       containers:
-        - name: client
-          image: yoriqulov/client
+        - name: auth
+          image: yoriqulov/auth
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: client-srv
+  name: auth-srv
 spec:
   selector:
-    app: client
-  type: ClusterIP # default value for type is ClusterIP too. We can omit this value.
+    app: auth
+  type: ClusterIP
   ports:
-    - name: client
+    - name: auth
       protocol: TCP
       port: 3000
       targetPort: 3000
