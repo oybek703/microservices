@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mcs-client-depl
+  name: client-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mcs-client
+      app: client
   template:
     metadata:
       labels:
-        app: mcs-client
+        app: client
     spec:
       containers:
-        - name: mcs-client
-          image: yoriqulov/mcs-client
+        - name: client
+          image: yoriqulov/client
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mcs-client-srv
+  name: client-srv
 spec:
   selector:
-    app: mcs-client
+    app: client
   type: ClusterIP # default value for type is ClusterIP too. We can omit this value.
   ports:
-    - name: mcs-client
+    - name: client
       protocol: TCP
       port: 3000
       targetPort: 3000
