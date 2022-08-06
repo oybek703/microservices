@@ -3,6 +3,7 @@ import CustomError from './customError'
 
 class RequestValidationError extends CustomError {
     statusCode = 400
+
     constructor(public reasons: ValidationError[]) {
         super('Invalid request parameters')
         // Only because we are extending a built in class
