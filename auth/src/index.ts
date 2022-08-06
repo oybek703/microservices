@@ -35,7 +35,7 @@ async function start() {
     if(!process.env.JWT_KEY) throw Error('JWT_KEY is not defined!')
     try {
         await mongoose.connect('mongodb://auth-mongo-srv/auth')
-        console.log('Successfully connected to database!')
+        console.log('Successfully connected to MongoDB database!')
     } catch (e) {
         console.log(e)
     }
