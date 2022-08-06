@@ -15,6 +15,15 @@ const userSchema: Schema = new Schema({
         type: String,
         required: true
     }
+}, {
+    toJSON: {
+        transform(doc, ret) {
+            delete ret.password
+            ret.id = ret._id
+            delete ret._id
+            delete ret.__v
+        }
+    }
 })
 
 userSchema.pre('save', async function (done) {

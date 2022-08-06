@@ -3,6 +3,7 @@ import {body, validationResult} from 'express-validator'
 import RequestValidationError from '../errors/requestValidationError'
 import User, {IUser} from '../models/User'
 import {HydratedDocument} from 'mongoose'
+import jwt from 'jsonwebtoken'
 import BadRequestError from '../errors/badRequestError'
 
 const router = Router()
@@ -22,6 +23,11 @@ router.post('/api/users/signUp', [
     if(existingUser) throw new BadRequestError('Email already exists.')
     const newUser: HydratedDocument<IUser> = new User({email, password})
     await newUser.save()
+    const userJwt = jwt.sign(
+        {id: newUser.id, email: newUser.email},
+        process.env.JWT_KEY!
+    )
+    req.session = {jwt: userJwt}
     res.send(newUser)
 })
 
