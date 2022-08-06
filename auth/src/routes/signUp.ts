@@ -3,6 +3,7 @@ import {body, validationResult} from 'express-validator'
 import RequestValidationError from '../errors/requestValidationError'
 import User, {IUser} from '../models/User'
 import {HydratedDocument} from 'mongoose'
+import BadRequestError from '../errors/badRequestError'
 
 const router = Router()
 
@@ -18,10 +19,7 @@ router.post('/api/users/signUp', [
     }
     const {email, password} = req.body
     const existingUser = await User.findOne({email})
-    if(existingUser) {
-        res.status(400).send('EMAIL IN USE')
-        return
-    }
+    if(existingUser) throw new BadRequestError('Email already exists.')
     const newUser: HydratedDocument<IUser> = new User({email, password})
     await newUser.save()
     res.send(newUser)
