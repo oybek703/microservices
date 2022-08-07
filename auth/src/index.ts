@@ -20,9 +20,9 @@ app.use(cookieSession({
     secure: true
 }))
 
-app.use(currentUserRoutes)
 app.use(signUpRoutes)
 app.use(signInRoutes)
+app.use(currentUserRoutes)
 app.use(signOutRoutes)
 
 app.all('*', async () => {
