@@ -1,35 +1,5 @@
-import express from 'express'
-import 'express-async-errors'
-import {currentUserRoutes} from './routes/currentUser'
-import {signInRoutes} from './routes/signIn'
-import {signUpRoutes} from './routes/signUp'
-import {signOutRoutes} from './routes/signOut'
-import errorHandler from './middlewares/errorHandler'
-import NotFoundError from './errors/notFoundError'
 import mongoose from 'mongoose'
-import cookieSession from 'cookie-session'
-
-const app = express()
-
-app.set('trust proxy', true)
-
-app.use(express.json())
-
-app.use(cookieSession({
-    signed: false,
-    secure: true
-}))
-
-app.use(signUpRoutes)
-app.use(signInRoutes)
-app.use(currentUserRoutes)
-app.use(signOutRoutes)
-
-app.all('*', async () => {
-    throw new NotFoundError()
-})
-
-app.use(errorHandler)
+import app from './app'
 
 async function start() {
     if(!process.env.JWT_KEY) throw Error('JWT_KEY is not defined!')

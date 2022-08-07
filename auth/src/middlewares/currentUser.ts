@@ -5,7 +5,7 @@ import NotAuthorizedError from '../errors/notAuthorizedError'
 
 
 export default function currentUser(req: Request, res: Response, next: NextFunction) {
-    if(!req.session?.jwt) throw new NotAuthorizedError()
+    if(!req.session?.jwt) next()
     req.currentUser = verify(req.session!.jwt, process.env.JWT_KEY!) as UserPayload
     next()
 }

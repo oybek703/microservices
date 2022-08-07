@@ -22,7 +22,7 @@ router.post('/api/users/signIn',
         if (!matchPassword) throw new BadRequestError('Invalid credentials.')
         const userJwt = jwt.sign({id: user.id, email: user.email}, process.env.JWT_KEY!)
         req.session = {jwt: userJwt}
-        res.status(201).send(user)
+        res.status(200).send(user)
     })
 
 export {router as signInRoutes}
