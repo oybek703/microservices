@@ -2,12 +2,12 @@ import React, {FormEvent, useState} from 'react'
 import useRequest from '../../hooks/useRequest'
 import {useRouter} from 'next/router'
 
-const SignUp = () => {
+const SignIn = () => {
     const {push} = useRouter()
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const {makeRequest, errors} = useRequest({
-        url: '/api/users/signUp',
+        url: '/api/users/signIn',
         method: 'post',
         body: {email, password},
         onSuccess: async () => await push('/')
@@ -19,7 +19,7 @@ const SignUp = () => {
     }
     return (
         <form onSubmit={handleSubmit}>
-            <h1 className='text-center'>Sign Up</h1>
+            <h1 className='text-center'>Sign In</h1>
             <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                 <input value={email} onChange={({target: {value}}) => setEmail(value)}
@@ -32,9 +32,9 @@ const SignUp = () => {
                        type="password" className="form-control" id="exampleInputPassword1"/>
             </div>
             {errors}
-            <button type="submit" className="btn btn-primary">Sign Up</button>
+            <button type="submit" className="btn btn-primary">Sign In</button>
         </form>
     )
 }
 
-export default SignUp
+export default SignIn

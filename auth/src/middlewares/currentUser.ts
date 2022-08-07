@@ -4,7 +4,10 @@ import {UserPayload} from '../types'
 
 
 export default function currentUser(req: Request, res: Response, next: NextFunction) {
-    if(!req.session?.jwt) next()
+    if(!req.session?.jwt) {
+        next()
+        return
+    }
     req.currentUser = verify(req.session!.jwt, process.env.JWT_KEY!) as UserPayload
     next()
 }
