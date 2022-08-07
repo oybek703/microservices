@@ -33,7 +33,7 @@ it('should disallow duplicate emails', async function () {
         .expect(400)
 })
 
-it('should set cookie after successfull sign up', async function () {
+it('should set cookie after successfully sign up', async function () {
     const response = await request(app).post('/api/users/signUp')
         .send({email: 'test@gmail.com', password: '123456'})
         .expect(201)
