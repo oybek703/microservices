@@ -25,3 +25,9 @@
 **/yarn-debug.log*
 **/yarn-error.log*
 **/.next
+.gitignore
+build/
+node_modules/
+package-lock.json
+src/
+tsconfig.json
