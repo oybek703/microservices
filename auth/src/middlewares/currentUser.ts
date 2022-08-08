@@ -1,6 +1,6 @@
 import {NextFunction, Request, Response} from 'express'
 import {verify} from 'jsonwebtoken'
-import {UserPayload} from '../types'
+import {UserPayload} from '../../../common/src/types'
 
 
 export default function currentUser(req: Request, res: Response, next: NextFunction) {
