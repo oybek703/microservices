@@ -8,7 +8,7 @@ const SignOut = () => {
         url: '/api/users/signOut',
         body: {},
         method: 'post',
-        onSuccess: () => push('/')
+        onSuccess: push.bind(null, '/')
     })
     useEffect(() => {
         (async function () {

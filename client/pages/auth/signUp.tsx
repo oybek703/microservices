@@ -10,7 +10,7 @@ const SignUp = () => {
         url: '/api/users/signUp',
         method: 'post',
         body: {email, password},
-        onSuccess: async () => await push('/')
+        onSuccess: push.bind(null, '/')
 
     })
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {

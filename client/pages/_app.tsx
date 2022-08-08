@@ -1,5 +1,6 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import '../public/css/styles.css'
 import App, {AppContext, AppInitialProps, AppProps} from 'next/app'
 import buildClient from '../api/buildClient'
 import Header from '../component/Header'
