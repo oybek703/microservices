@@ -1,7 +1,7 @@
 {
   "name": "@yticketing/common",
-  "version": "1.0.4",
-  "description": "",
+  "version": "1.0.5",
+  "description": "Common codes in project",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "files": [
