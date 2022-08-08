@@ -1,10 +1,9 @@
 import {Request, Response, Router} from 'express'
 import {body} from 'express-validator'
 import User from '../models/User'
-import BadRequestError from '../errors/badRequestError'
 import Password from '../services/password'
-import jwt from 'jsonwebtoken'
-import validateRequest from '../middlewares/validateRequest'
+import {sign} from 'jsonwebtoken'
+import {BadRequestError, validateRequest} from '@yticketing/common'
 
 const router = Router()
 
@@ -20,7 +19,7 @@ router.post('/api/users/signIn',
         if (!user) throw new BadRequestError('Invalid credentials.')
         const matchPassword = await Password.compare(user.password, password)
         if (!matchPassword) throw new BadRequestError('Invalid credentials.')
-        const userJwt = jwt.sign({id: user.id, email: user.email}, process.env.JWT_KEY!)
+        const userJwt = sign({id: user.id, email: user.email}, process.env.JWT_KEY!)
         req.session = {jwt: userJwt}
         res.status(200).send(user)
     })

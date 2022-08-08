@@ -19,7 +19,7 @@ function useRequest ({url, method, body, onSuccess }: UseRequestParams) {
         } catch (e: any) {
             console.log(e)
             const errors = <div className='alert alert-danger'>
-                <h4>Oops...</h4>
+                <h4>Error...</h4>
                 <ul>
                     {e.response.data.errors.map(error => <li key={error.message}>
                         {error.message}

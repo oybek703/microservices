@@ -4,9 +4,8 @@ import {currentUserRoutes} from './routes/currentUser'
 import {signInRoutes} from './routes/signIn'
 import {signUpRoutes} from './routes/signUp'
 import {signOutRoutes} from './routes/signOut'
-import errorHandler from './middlewares/errorHandler'
-import NotFoundError from './errors/notFoundError'
 import cookieSession from 'cookie-session'
+import {errorHandler, NotFoundError} from '@yticketing/common'
 
 const app = express()
 

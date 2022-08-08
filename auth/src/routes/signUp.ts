@@ -3,8 +3,7 @@ import {body} from 'express-validator'
 import User, {IUser} from '../models/User'
 import {HydratedDocument} from 'mongoose'
 import jwt from 'jsonwebtoken'
-import BadRequestError from '../errors/badRequestError'
-import validateRequest from '../middlewares/validateRequest'
+import {BadRequestError, validateRequest} from '@yticketing/common'
 
 const router = Router()
 
