@@ -6,5 +6,6 @@ export function errorHandler(err: Error, req: Request, res: Response, next: Next
        res.status(err.statusCode).send({errors: err.serializeErrors()})
        return
     }
+    console.error(err)
     res.status(500).send({errors: [{message: 'Internal server error.'}]})
 }
