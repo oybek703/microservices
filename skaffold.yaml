@@ -26,3 +26,11 @@ build:
             dest: .
           - src: '**/*.ts'
             dest: .
+    - image: yoriqulov/tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
