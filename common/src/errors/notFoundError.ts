@@ -1,7 +1,7 @@
 import {CustomError} from './customError'
 
 export class NotFoundError extends CustomError {
-    statusCode = 500
+    statusCode = 404
 
     constructor() {
         super('Route not found.')
