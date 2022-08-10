@@ -1,6 +1,6 @@
 {
   "name": "@yticketing/common",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "description": "Common codes in project",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -17,16 +17,17 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/cookie-session": "^2.0.44",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.8",
     "del-cli": "^5.0.0",
-    "typescript": "^4.7.4",
-    "@types/cookie-session": "^2.0.44"
+    "typescript": "^4.7.4"
   },
   "dependencies": {
-    "express": "^4.18.1",
     "cookie-session": "^2.0.0",
+    "express": "^4.18.1",
     "express-validator": "^6.14.2",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "node-nats-streaming": "^0.3.2"
   }
 }
