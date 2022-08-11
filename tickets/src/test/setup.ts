@@ -5,6 +5,8 @@ import {sign} from 'jsonwebtoken'
 
 jest.setTimeout(100000)
 
+jest.mock('../natsWrapper')
+
 declare global {
     function signIn(): string
 }

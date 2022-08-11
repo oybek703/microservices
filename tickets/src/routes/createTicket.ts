@@ -4,11 +4,9 @@ import {body} from 'express-validator'
 import Ticket from '../models/Ticket'
 import '../types'
 import {TicketCreatedPublisher} from '../events/publishers/TicketCreatedPublisher'
-import natsWrapper from '../natsWrapper'
+import {natsWrapper} from '../natsWrapper'
 
 const router = Router()
-
-console.log(Object.keys(natsWrapper))
 
 router.post('/api/tickets',
     requireAuth,
