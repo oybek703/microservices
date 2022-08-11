@@ -1,11 +1,12 @@
 import {model, Schema, Document, Types} from 'mongoose'
 import {OrderStatus} from '@yticketing/common'
+import {ITicket} from './Ticket'
 
 export interface IOrder extends Document {
     userId: string
     status: OrderStatus,
     expiresAt: Date,
-    ticket: Types.ObjectId
+    ticket: ITicket
 }
 
 const orderSchema: Schema = new Schema({
