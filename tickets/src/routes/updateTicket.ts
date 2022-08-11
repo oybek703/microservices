@@ -2,6 +2,8 @@ import {Request, Response, Router} from 'express'
 import {NotAuthorizedError, NotFoundError, requireAuth, validateRequest} from '@yticketing/common'
 import Ticket from '../models/Ticket'
 import {body} from 'express-validator'
+import {TicketUpdatedPublisher} from '../events/publishers/TicketUpdatedPublisher'
+import {natsWrapper} from '../natsWrapper'
 
 const router = Router()
 
@@ -19,6 +21,12 @@ router.put('/api/tickets/:id',
     if(ticket.userId !== req.currentUser!.id) throw new NotAuthorizedError()
     ticket.set({title, price})
     await ticket.save()
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+        id: ticket.id,
+        title: ticket.title,
+        price: ticket.price,
+        userId: ticket.userId
+    })
     res.send(ticket)
 })
 

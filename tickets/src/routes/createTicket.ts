@@ -3,6 +3,8 @@ import {requireAuth, validateRequest} from '@yticketing/common'
 import {body} from 'express-validator'
 import Ticket from '../models/Ticket'
 import '../types'
+import {TicketCreatedPublisher} from '../events/publishers/TicketCreatedPublisher'
+import {natsWrapper} from '../natsWrapper'
 
 const router = Router()
 
@@ -16,8 +18,13 @@ router.post('/api/tickets',
     validateRequest,
     async (req: Request, res: Response) => {
         const {title, price} = req.body
-        const ticket = new Ticket({title, price, userId: req.currentUser!.id})
+        const userId = req.currentUser!.id
+        const ticket = new Ticket({title, price, userId})
         await ticket.save()
+        await new TicketCreatedPublisher(natsWrapper.client).publish({
+            id: ticket.id,
+            title, price
+        })
         res.status(201).send(ticket)
     })
 
