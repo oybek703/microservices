@@ -11,6 +11,8 @@ declare global {
 
 let mongo: MongoMemoryServer
 
+jest.mock('../natsWrapper')
+
 beforeAll(async function () {
     process.env.JWT_KEY='test_key'
     mongo = await MongoMemoryServer.create()

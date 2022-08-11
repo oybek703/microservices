@@ -3,7 +3,7 @@ import {NotAuthorizedError, NotFoundError, requireAuth, validateRequest} from '@
 import Ticket from '../models/Ticket'
 import {body} from 'express-validator'
 import {TicketUpdatedPublisher} from '../events/publishers/TicketUpdatedPublisher'
-import {natsWrapper} from '../natsWrapper'
+import natsWrapper from '../natsWrapper'
 
 const router = Router()
 
