@@ -1,11 +1,17 @@
 import {Request, Response, Router} from 'express'
-import {BadRequestError, NotFoundError, OrderStatus, requireAuth, validateRequest} from '@yticketing/common'
+import {
+    BadRequestError, NotFoundError, OrderStatus,
+    requireAuth, validateRequest
+} from '@yticketing/common'
 import {body} from 'express-validator'
 import {Types} from 'mongoose'
 import Ticket from '../models/Ticket'
 import Order from '../models/Order'
+import '../types'
 
 const router = Router()
+
+const EXPIRATION_WINDOW_SECONDS: number = 15 * 60
 
 router.post(
     '/api/orders',
@@ -21,14 +27,21 @@ router.post(
         const {ticketId} = req.body
         // Find the order user trying to create in database
         const ticket = await Ticket.findById(ticketId)
-        if(!ticket) throw new NotFoundError()
+        if (!ticket) throw new NotFoundError()
         // Make sure that this ticket is not already reserved
         const isReserved = await ticket.isReserved()
-        if(isReserved) throw new BadRequestError('Ticket is already reserved.')
+        if (isReserved) throw new BadRequestError('Ticket is already reserved.')
         // Calculate expiration date for this order
+        const expiration = new Date()
+        expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS)
         // Create order and save to database
+        const userId = req.currentUser!.id
+        const order = new Order({
+            userId, status: OrderStatus.Created,
+            expiresAt: expiration, ticket
+        })
         // Publish an event that order was created
-        res.send({})
+        res.status(201).send(order)
     })
 
 export {router as createOrderRouter}
