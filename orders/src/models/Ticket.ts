@@ -7,7 +7,7 @@ interface TicketAttrs {
     price: number
 }
 
-interface TicketDoc extends Document {
+export interface TicketDoc extends Document {
     title: string
     price: number
 

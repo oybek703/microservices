@@ -1,19 +1,19 @@
 import {model, Schema, Document, Types, Model} from 'mongoose'
 import {OrderStatus} from '@yticketing/common'
-import {ITicket} from './Ticket'
+import {TicketDoc} from './Ticket'
 
 interface OrderAttrs {
     userId: string
     status: OrderStatus,
     expiresAt: Date,
-    ticket: ITicket
+    ticket: TicketDoc
 }
 
 interface OrderDoc extends Document {
     userId: string
     status: OrderStatus,
     expiresAt: Date,
-    ticket: ITicket
+    ticket: TicketDoc
 }
 
 interface OrderModel extends Model<OrderDoc> {
