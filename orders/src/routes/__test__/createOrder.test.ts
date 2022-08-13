@@ -4,6 +4,7 @@ import {Types} from 'mongoose'
 import Ticket from '../../models/Ticket'
 import Order from '../../models/Order'
 import {OrderStatus} from '@yticketing/common'
+import {natsWrapper} from '../../natsWrapper'
 
 it('should return error if ticket does not exist', async function () {
     const ticketId = new Types.ObjectId()
@@ -37,4 +38,12 @@ it('should reserve a ticket', async function () {
         .expect(201)
 })
 
-it.todo('emits an order created event')
+it('should emit an order created event', async function () {
+    const ticket = new Ticket({price: 20, title: 'Test title'})
+    await ticket.save()
+    await request(app).post('/api/orders')
+        .set('Cookie', global.signIn())
+        .send({ticketId: ticket.id})
+        .expect(201)
+    expect(natsWrapper.client.publish).toHaveBeenCalled()
+})

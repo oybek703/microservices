@@ -1,10 +1,15 @@
 import {Request, Response, Router} from 'express'
-import {BadRequestError, NotFoundError, OrderStatus, requireAuth, validateRequest} from '@yticketing/common'
+import {
+    BadRequestError, NotFoundError, OrderStatus,
+    requireAuth, validateRequest
+} from '@yticketing/common'
 import {body} from 'express-validator'
 import {Types} from 'mongoose'
 import Ticket from '../models/Ticket'
 import Order from '../models/Order'
 import '../types'
+import OrderCreatedPublisher from '../events/publishers/orderCreatedPublisher'
+import {natsWrapper} from '../natsWrapper'
 
 const router = Router()
 
@@ -40,7 +45,16 @@ router.post(
             ticket
         })
         await order.save()
-        // Publish an event that order was created
+        await new OrderCreatedPublisher(natsWrapper.client).publish({
+            id: order.id,
+            status: order.status,
+            userId: req.currentUser!.id,
+            expiresAt: order.expiresAt.toISOString(),
+            ticket: {
+                id: ticket.id,
+                price: ticket.price
+            }
+        })
         res.status(201).send(order)
     })
 
