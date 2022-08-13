@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 import app from './app'
 import {natsWrapper} from './natsWrapper'
+import TicketCreatedListener from './events/listeners/TicketCreatedListener'
+import TicketUpdatedListener from './events/listeners/TicketUpdatedListener'
 
 async function start() {
     if(!process.env.JWT_KEY) throw Error('JWT_KEY is not defined!')
@@ -20,6 +22,8 @@ async function start() {
         })
         process.on('SIGINT', natsWrapper.client.close)
         process.on('SIGTERM', natsWrapper.client.close)
+        new TicketCreatedListener(natsWrapper.client).listen()
+        new TicketUpdatedListener(natsWrapper.client).listen()
         await mongoose.connect(process.env.MONGO_URI)
         console.log('Successfully connected to MongoDB database!')
     } catch (e) {
