@@ -23,7 +23,8 @@ router.post('/api/tickets',
         await ticket.save()
         await new TicketCreatedPublisher(natsWrapper.client).publish({
             id: ticket.id,
-            title, price
+            title, price,
+            version: ticket.version
         })
         res.status(201).send(ticket)
     })

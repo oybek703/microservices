@@ -1,19 +1,21 @@
 import {model, Schema, Document, Types, Model} from 'mongoose'
 import {OrderStatus} from '@yticketing/common'
 import {TicketDoc} from './Ticket'
+import {updateIfCurrentPlugin} from 'mongoose-update-if-current'
 
 interface OrderAttrs {
     userId: string
-    status: OrderStatus,
-    expiresAt: Date,
+    status: OrderStatus
+    expiresAt: Date
     ticket: TicketDoc
 }
 
 interface OrderDoc extends Document {
     userId: string
-    status: OrderStatus,
-    expiresAt: Date,
+    status: OrderStatus
+    expiresAt: Date
     ticket: TicketDoc
+    version: number
 }
 
 interface OrderModel extends Model<OrderDoc> {
@@ -48,6 +50,9 @@ const orderSchema: Schema = new Schema({
         }
     }
 })
+
+orderSchema.set('versionKey', 'version')
+orderSchema.plugin(updateIfCurrentPlugin)
 
 orderSchema.statics.build = function (attrs: OrderAttrs) {
     return new Order(attrs)
