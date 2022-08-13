@@ -1,12 +1,23 @@
-import {model, Schema, Document, Types} from 'mongoose'
+import {model, Schema, Document, Types, Model} from 'mongoose'
 import {OrderStatus} from '@yticketing/common'
 import {ITicket} from './Ticket'
 
-export interface IOrder extends Document {
+interface OrderAttrs {
     userId: string
     status: OrderStatus,
     expiresAt: Date,
     ticket: ITicket
+}
+
+interface OrderDoc extends Document {
+    userId: string
+    status: OrderStatus,
+    expiresAt: Date,
+    ticket: ITicket
+}
+
+interface OrderModel extends Model<OrderDoc> {
+    build(attrs: OrderAttrs): OrderDoc
 }
 
 const orderSchema: Schema = new Schema({
@@ -38,7 +49,10 @@ const orderSchema: Schema = new Schema({
     }
 })
 
+orderSchema.statics.build = function (attrs: OrderAttrs) {
+    return new Order(attrs)
+}
 
-const Order = model<IOrder>('Order', orderSchema)
+const Order = model<OrderDoc, OrderModel>('Order', orderSchema)
 
 export default Order

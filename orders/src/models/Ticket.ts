@@ -1,11 +1,21 @@
-import {model, Schema, Document} from 'mongoose'
+import {model, Schema, Document, Model} from 'mongoose'
 import Order from './Order'
 import {OrderStatus} from '@yticketing/common'
 
-export interface ITicket extends Document {
+interface TicketAttrs {
     title: string
     price: number
+}
+
+interface TicketDoc extends Document {
+    title: string
+    price: number
+
     isReserved(): Promise<boolean>
+}
+
+interface TicketModel extends Model<TicketDoc> {
+    build(attrs: TicketAttrs): TicketDoc
 }
 
 const ticketSchema: Schema = new Schema({
@@ -28,6 +38,9 @@ const ticketSchema: Schema = new Schema({
     }
 })
 
+ticketSchema.statics.build = function (attrs: TicketAttrs) {
+    return new Ticket(attrs)
+}
 
 ticketSchema.methods.isReserved = async function () {
     const existingOrder = await Order.findOne({
@@ -36,13 +49,13 @@ ticketSchema.methods.isReserved = async function () {
             $in: [
                 OrderStatus.Created,
                 OrderStatus.AwaitingPayment,
-                OrderStatus.Complete,
+                OrderStatus.Complete
             ]
         }
     })
     return Boolean(existingOrder)
 }
 
-const Ticket = model<ITicket>('Ticket', ticketSchema)
+const Ticket = model<TicketDoc, TicketModel>('Ticket', ticketSchema)
 
 export default Ticket

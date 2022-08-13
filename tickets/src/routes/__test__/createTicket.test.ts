@@ -36,15 +36,11 @@ it('should return an error if invalid title provided', async function () {
 it('should return an error if invalid price is provided', async function () {
     await request(app).post('/api/tickets')
         .set('Cookie', global.signIn())
-        .send({
-            title: 'test',
-            price: -10
-        }).expect(400)
+        .send({title: 'test', price: -10})
+        .expect(400)
     await request(app).post('/api/tickets')
         .set('Cookie', global.signIn())
-        .send({
-            title: 'test1'
-        }).expect(400)
+        .send({title: 'test1'}).expect(400)
 })
 
 it('should create ticket with valid inputs', async function () {

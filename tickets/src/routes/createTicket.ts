@@ -19,7 +19,7 @@ router.post('/api/tickets',
     async (req: Request, res: Response) => {
         const {title, price} = req.body
         const userId = req.currentUser!.id
-        const ticket = new Ticket({title, price, userId})
+        const ticket = Ticket.build({title, price, userId})
         await ticket.save()
         await new TicketCreatedPublisher(natsWrapper.client).publish({
             id: ticket.id,

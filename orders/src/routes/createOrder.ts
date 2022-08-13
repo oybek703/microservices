@@ -1,8 +1,5 @@
 import {Request, Response, Router} from 'express'
-import {
-    BadRequestError, NotFoundError, OrderStatus,
-    requireAuth, validateRequest
-} from '@yticketing/common'
+import {BadRequestError, NotFoundError, OrderStatus, requireAuth, validateRequest} from '@yticketing/common'
 import {body} from 'express-validator'
 import {Types} from 'mongoose'
 import Ticket from '../models/Ticket'
@@ -36,9 +33,11 @@ router.post(
         expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS)
         // Create order and save to database
         const userId = req.currentUser!.id
-        const order = new Order({
-            userId, status: OrderStatus.Created,
-            expiresAt: expiration, ticket
+        const order = Order.build({
+            userId,
+            status: OrderStatus.Created,
+            expiresAt: expiration,
+            ticket
         })
         // Publish an event that order was created
         res.status(201).send(order)

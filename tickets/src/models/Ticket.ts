@@ -1,9 +1,19 @@
-import {model, Schema, Document} from 'mongoose'
+import {model, Schema, Document, Model} from 'mongoose'
 
-export interface ITicket extends Document {
+interface TicketAttrs {
     title: string
-    price: number,
+    price: number
     userId: string
+}
+
+interface TicketDoc extends Document {
+    title: string
+    price: number
+    userId: string
+}
+
+interface TicketModel extends Model<TicketDoc> {
+    build(attrs: TicketAttrs): TicketDoc
 }
 
 const ticketSchema: Schema = new Schema({
@@ -29,7 +39,10 @@ const ticketSchema: Schema = new Schema({
     }
 })
 
+ticketSchema.statics.build = function(attrs: TicketAttrs) {
+    return new Ticket(attrs)
+}
 
-const Ticket = model<ITicket>('Ticket', ticketSchema)
+const Ticket = model<TicketDoc, TicketModel>('Ticket', ticketSchema)
 
 export default Ticket
