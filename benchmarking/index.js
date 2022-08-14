@@ -6,7 +6,7 @@ const axios = require('axios');
 const cookie =
     'session=eyJqd3QiOiJleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKcFpDSTZJall5WmpkaVpERmtaRGt3Wm1JM1pqWTRNMk16WmpsaU5DSXNJbVZ0WVdsc0lqb2lkR1Z6ZEVCbmJXRnBiQzVqYjIwaUxDSnBZWFFpT2pFMk5qQTBNRGN3TmpWOS5NM2E2M1AzajVva0RQRXlnMnNqRnJSNFMxbVdCb2owUFZDbjQwY1pLOWxBIn0=';
 
-const doRequest = async () => {
+const doRequest = async (reqNumber) => {
   const { data } = await axios.post(
       `http://ticketing.dev/api/tickets`,
       { title: 'ticket', price: 5 },
@@ -31,11 +31,11 @@ const doRequest = async () => {
       }
   );
 
-  console.log('Request complete');
+  console.log(`Request complete ${reqNumber}`);
 };
 
 (async () => {
-  for (let i = 0; i < 50000; i++) {
-    await doRequest();
+  for (let i = 0; i < 500; i++) {
+    await doRequest(i);
   }
 })();
