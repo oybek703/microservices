@@ -1,9 +1,14 @@
 import request from 'supertest'
 import Ticket from '../../models/Ticket'
 import app from '../../app'
+import {Types} from 'mongoose'
 
 it('should fetch order by order id', async function () {
-    const ticket = await Ticket.build({price: 10, title: 'Test ticket title'}).save()
+    const ticket = await Ticket.build({
+        price: 10,
+        title: 'Test ticket title',
+        id: new Types.ObjectId().toHexString()
+    }).save()
     const user = global.signIn()
     const {body: order} = await request(app)
         .post('/api/orders')
@@ -15,7 +20,11 @@ it('should fetch order by order id', async function () {
 })
 
 it('should return error if user is not order owner', async function () {
-    const ticket = await Ticket.build({price: 10, title: 'Test ticket title'}).save()
+    const ticket = await Ticket.build({
+        price: 10,
+        title: 'Test ticket title',
+        id: new Types.ObjectId().toHexString()
+    }).save()
     const user = global.signIn()
     const {body: order} = await request(app)
         .post('/api/orders')

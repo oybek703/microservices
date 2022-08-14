@@ -14,7 +14,11 @@ it('should return error if ticket does not exist', async function () {
 })
 
 it('should return an error if the ticket is already reserved', async function () {
-    const ticket = Ticket.build({price: 20, title: 'Test title'})
+    const ticket = Ticket.build({
+        price: 20,
+        title: 'Test title',
+        id: new Types.ObjectId().toHexString()
+    })
     await ticket.save()
     const order = Order.build({
         userId: 'test_user_id',
@@ -30,7 +34,11 @@ it('should return an error if the ticket is already reserved', async function ()
 })
 
 it('should reserve a ticket', async function () {
-    const ticket = new Ticket({price: 20, title: 'Test title'})
+    const ticket = Ticket.build({
+        price: 20,
+        title: 'Test title',
+        id: new Types.ObjectId().toHexString()
+    })
     await ticket.save()
     await request(app).post('/api/orders')
         .set('Cookie', global.signIn())
@@ -39,7 +47,11 @@ it('should reserve a ticket', async function () {
 })
 
 it('should emit an order created event', async function () {
-    const ticket = new Ticket({price: 20, title: 'Test title'})
+    const ticket = Ticket.build({
+        price: 20,
+        title: 'Test title',
+        id: new Types.ObjectId().toHexString()
+    })
     await ticket.save()
     await request(app).post('/api/orders')
         .set('Cookie', global.signIn())

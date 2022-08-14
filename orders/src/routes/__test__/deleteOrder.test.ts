@@ -3,9 +3,14 @@ import Ticket from '../../models/Ticket'
 import app from '../../app'
 import {OrderStatus} from '@yticketing/common'
 import {natsWrapper} from '../../natsWrapper'
+import {Types} from "mongoose"
 
 it('should change order status to cancelled', async function () {
-    const ticket = await Ticket.build({price: 10, title: 'Test ticket title'}).save()
+    const ticket = await Ticket.build({
+        price: 10,
+        title: 'Test ticket title',
+        id: new Types.ObjectId().toHexString()
+    }).save()
     const user = global.signIn()
     const {body: order} = await request(app)
         .post('/api/orders')
@@ -17,7 +22,11 @@ it('should change order status to cancelled', async function () {
 })
 
 it('should emit an order cancelled event', async function () {
-    const ticket = await Ticket.build({price: 10, title: 'Test ticket title'}).save()
+    const ticket = await Ticket.build({
+        price: 10,
+        title: 'Test ticket title',
+        id: new Types.ObjectId().toHexString()
+    }).save()
     const user = global.signIn()
     const {body: order} = await request(app)
         .post('/api/orders')

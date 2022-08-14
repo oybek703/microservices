@@ -1,12 +1,27 @@
 import request from 'supertest'
 import Ticket from '../../models/Ticket'
 import app from '../../app'
+import {Types} from 'mongoose'
+
+jest.setTimeout(10000)
 
 it('should return all orders for specific user', async function () {
     // Create three tickets
-    const ticket1 = await Ticket.build({price: 10, title: 'T1'}).save()
-    const ticket2 = await Ticket.build({price: 10, title: 'T2'}).save()
-    const ticket3 = await Ticket.build({price: 10, title: 'T3'}).save()
+    const ticket1 = await Ticket.build({
+        price: 10,
+        title: 'T1',
+        id: new Types.ObjectId().toHexString()
+    }).save()
+    const ticket2 = await Ticket.build({
+        price: 10,
+        title: 'T2',
+        id: new Types.ObjectId().toHexString()
+    }).save()
+    const ticket3 = await Ticket.build({
+        price: 10,
+        title: 'T3',
+        id: new Types.ObjectId().toHexString()
+    }).save()
     // Create two users via global.signIn
     const userOne = global.signIn()
     const userTwo = global.signIn()

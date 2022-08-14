@@ -53,7 +53,11 @@ it('should ack the message', async function () {
 
 it('should not call ack if versions differ', async function () {
     const {message, data, listener} = await setup()
-    await listener.onMessage(data, message)
     data.version = 10
+    try {
+        await listener.onMessage(data, message)
+    } catch (e) {
+                    
+    }
     expect(message.ack).not.toHaveBeenCalled()
 })
