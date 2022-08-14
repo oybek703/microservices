@@ -35,7 +35,7 @@ const doRequest = async () => {
 };
 
 (async () => {
-  for (let i = 0; i < 500; i++) {
+  for (let i = 0; i < 50000; i++) {
     await doRequest();
   }
 })();

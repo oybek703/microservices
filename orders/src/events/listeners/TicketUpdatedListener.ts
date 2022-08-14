@@ -8,9 +8,10 @@ class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
     queueGroupName = queueGroupName
 
     async onMessage(data: TicketUpdatedEvent['data'], message: Message) {
-        const {version, id: _id, title, price} = data
-        const ticket = await Ticket.findOne({ _id, version: version - 1 })
+        const {version, id, title, price} = data
+        const ticket = await Ticket.findByEvent({id, version})
         if(!ticket) throw new Error('Ticket not found.')
+
         ticket.set({title, price})
         await ticket.save()
         message.ack()
