@@ -1,5 +1,5 @@
 import {Types} from 'mongoose'
-import OrderCreatedListener from '../OrderCreatedListener'
+import OrderCreatedListener from '../orderCreatedListener'
 import {OrderCreatedEvent, OrderStatus} from '@yticketing/common'
 import {Message} from 'node-nats-streaming'
 import {natsWrapper} from '../../../natsWrapper'

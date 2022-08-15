@@ -15,6 +15,7 @@ const router = Router()
 
 const EXPIRATION_WINDOW_SECONDS: number = 15 * 60
 
+
 router.post(
     '/api/orders',
     requireAuth,

@@ -3,7 +3,7 @@ import {TicketUpdatedEvent} from '@yticketing/common'
 import {Types} from 'mongoose'
 import {Message} from 'node-nats-streaming'
 import Ticket from '../../../models/Ticket'
-import TicketUpdatedListener from '../TicketUpdatedListener'
+import TicketUpdatedListener from '../ticketUpdatedListener'
 
 async function setup() {
     // create an instance of listener

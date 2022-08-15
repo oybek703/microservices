@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 import app from './app'
 import {natsWrapper} from './natsWrapper'
-import OrderCreatedListener from './events/listeners/OrderCreatedListener'
-import OrderCancelledListener from './events/listeners/OrderCancelledListener'
+import OrderCreatedListener from './events/listeners/orderCreatedListener'
+import OrderCancelledListener from './events/listeners/orderCancelledListener'
 
 async function start() {
     if(!process.env.JWT_KEY) throw Error('JWT_KEY is not defined!')

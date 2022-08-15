@@ -1,4 +1,4 @@
-import TicketCreatedListener from '../TicketCreatedListener'
+import TicketCreatedListener from '../ticketCreatedListener'
 import {natsWrapper} from '../../../natsWrapper'
 import {TicketCreatedEvent} from '@yticketing/common'
 import {Types} from 'mongoose'

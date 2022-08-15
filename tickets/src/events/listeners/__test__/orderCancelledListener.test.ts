@@ -3,7 +3,7 @@ import {OrderCancelledEvent} from '@yticketing/common'
 import {Message} from 'node-nats-streaming'
 import {natsWrapper} from '../../../natsWrapper'
 import Ticket from '../../../models/Ticket'
-import OrderCancelledListener from '../OrderCancelledListener'
+import OrderCancelledListener from '../orderCancelledListener'
 
 async function setup() {
     // create an instance of listener
@@ -35,15 +35,10 @@ async function setup() {
 }
 
 it('should update ticket, publish event and ack message', async function () {
-    
-})
-
-it('should set orderId of ticket', async function () {
     const {ticket, message, data, listener} = await setup()
     await listener.onMessage(data, message)
     const updatedTicket = await Ticket.findById(ticket.id)
     expect(updatedTicket!.orderId).not.toBeDefined()
-    expect(message.ack).toHaveBeenCalled()
     expect(natsWrapper.client.publish).toHaveBeenCalled()
+    expect(message.ack).toHaveBeenCalled()
 })
-

@@ -1,7 +1,6 @@
 import {natsWrapper} from './natsWrapper'
 import OrderCreatedListener from './events/listeners/orderCreatedListener'
 
-
 async function start() {
     if(!process.env.NATS_CLUSTER_ID) throw Error('NATS_CLUSTER_ID is not defined!')
     if(!process.env.NATS_CLIENT_ID) throw Error('NATS_CLIENT_ID is not defined!')
