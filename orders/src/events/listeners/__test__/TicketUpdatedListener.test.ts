@@ -57,7 +57,7 @@ it('should not call ack if versions differ', async function () {
     try {
         await listener.onMessage(data, message)
     } catch (e) {
-                    
+
     }
     expect(message.ack).not.toHaveBeenCalled()
 })

@@ -52,3 +52,7 @@ it('should update ticket if valid title and price provided', async function () {
     expect(updatedTicket.body.title).toEqual(newTicketValues.title)
     expect(updatedTicket.body.price).toEqual(newTicketValues.price)
 })
+
+it('should reject ticket update if it is reserved', async function () {
+
+})

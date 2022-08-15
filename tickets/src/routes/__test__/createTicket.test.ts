@@ -61,7 +61,7 @@ it('should publish an event', async function () {
         .set('Cookie', global.signIn())
         .send({
             title: 'test',
-            price: -10
-        }).expect(400)
+            price: 10
+        }).expect(201)
     expect(natsWrapper.client.publish).toHaveBeenCalled()
 })

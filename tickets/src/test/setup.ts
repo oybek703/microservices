@@ -23,6 +23,7 @@ beforeAll(async function () {
 })
 
 beforeEach(async function () {
+    jest.clearAllMocks()
     const collections = await connection.db.collections()
     for (const collection of collections) {
         await collection.deleteMany({})

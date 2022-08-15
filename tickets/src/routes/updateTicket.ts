@@ -1,5 +1,5 @@
 import {Request, Response, Router} from 'express'
-import {NotAuthorizedError, NotFoundError, requireAuth, validateRequest} from '@yticketing/common'
+import {BadRequestError, NotAuthorizedError, NotFoundError, requireAuth, validateRequest} from '@yticketing/common'
 import Ticket from '../models/Ticket'
 import {body} from 'express-validator'
 import {TicketUpdatedPublisher} from '../events/publishers/TicketUpdatedPublisher'
@@ -18,6 +18,7 @@ router.put('/api/tickets/:id',
     const {title, price} = req.body
     const ticket = await Ticket.findById(req.params.id)
     if(!ticket) throw new NotFoundError()
+    if (ticket.orderId) throw new BadRequestError('Cannot edit reserved ticket!')
     if(ticket.userId !== req.currentUser!.id) throw new NotAuthorizedError()
     ticket.set({title, price})
     await ticket.save()
