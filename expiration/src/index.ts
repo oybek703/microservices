@@ -1,4 +1,6 @@
 import {natsWrapper} from './natsWrapper'
+import OrderCreatedListener from './events/listeners/orderCreatedListener'
+
 
 async function start() {
     if(!process.env.NATS_CLUSTER_ID) throw Error('NATS_CLUSTER_ID is not defined!')
@@ -16,7 +18,7 @@ async function start() {
         })
         process.on('SIGINT', natsWrapper.client.close)
         process.on('SIGTERM', natsWrapper.client.close)
-        console.log('Successfully connected to MongoDB database!')
+        new OrderCreatedListener(natsWrapper.client).listen()
     } catch (e) {
         console.log(e)
     }
