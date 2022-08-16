@@ -4,6 +4,7 @@ import {Types} from 'mongoose'
 import Order from '../../models/Order'
 import {OrderStatus} from '@yticketing/common'
 import stripe from '../../stripe'
+import Payment from '../../models/Payment'
 
 it('should return 404 if order does not exist', async function () {
     await request(app).post('/api/payments')
@@ -71,4 +72,9 @@ it('should return 201 with valid inputs', async function () {
     const stripeCharge = stripeCharges.find(charge => charge.amount === price * 100)
     expect(stripeCharge).toBeDefined()
     expect(stripeCharge!.currency).toEqual('usd')
+    const payment = await Payment.findOne({
+        orderId: order.id,
+        stripeId: stripeCharge!.id
+    })
+    expect(payment).not.toBeNull()
 })
