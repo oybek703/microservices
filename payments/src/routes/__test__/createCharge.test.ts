@@ -3,6 +3,7 @@ import app from '../../app'
 import {Types} from 'mongoose'
 import Order from '../../models/Order'
 import {OrderStatus} from '@yticketing/common'
+import stripe from '../../stripe'
 
 jest.mock('../../stripe')
 
@@ -62,5 +63,9 @@ it('should return 204 with valid inputs', async function () {
         .send({
             token: 'tok_visa',
             orderId: order.id
-        }).expect(204)
+        }).expect(201)
+    const chargeOptions = (stripe.charges.create as jest.Mock).mock.calls[0][0]
+    expect(chargeOptions!.source).toEqual('tok_visa')
+    expect(chargeOptions!.currency).toEqual('usd')
+    expect(chargeOptions!.amount).toEqual(order.price * 100)
 })
