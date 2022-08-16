@@ -10,6 +10,7 @@ async function start() {
     if(!process.env.NATS_CLUSTER_ID) throw Error('NATS_CLUSTER_ID is not defined!')
     if(!process.env.NATS_CLIENT_ID) throw Error('NATS_CLIENT_ID is not defined!')
     if(!process.env.NATS_URL) throw Error('NATS_URL is not defined!')
+    if(!process.env.STRIPE_KEY) throw Error('STRIPE_KEY is not defined!')
     try {
         await natsWrapper.connect(
             process.env.NATS_CLUSTER_ID,

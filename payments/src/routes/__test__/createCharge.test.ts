@@ -4,6 +4,8 @@ import {Types} from 'mongoose'
 import Order from '../../models/Order'
 import {OrderStatus} from '@yticketing/common'
 
+jest.mock('../../stripe')
+
 it('should return 404 if order does not exist', async function () {
     await request(app).post('/api/payments')
         .set('Cookie', global.signIn())
@@ -44,4 +46,21 @@ it('should return 400 if purchasing order is cancelled', async function () {
             token: 'test_stripe_token',
             orderId: order.id
         }).expect(400)
-}) 
+})
+
+it('should return 204 with valid inputs', async function () {
+    const userId = new Types.ObjectId().toHexString()
+    const order = await Order.build({
+        id: new Types.ObjectId().toHexString(),
+        price: 10,
+        version: 0,
+        status: OrderStatus.Created,
+        userId
+    }).save()
+    await request(app).post('/api/payments')
+        .set('Cookie', global.signIn(userId))
+        .send({
+            token: 'tok_visa',
+            orderId: order.id
+        }).expect(204)
+})
