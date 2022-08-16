@@ -8,7 +8,7 @@ jest.setTimeout(100000)
 jest.mock('../natsWrapper')
 
 declare global {
-    function signIn(): string
+    function signIn(id?: string): string
 }
 
 let mongo: MongoMemoryServer
@@ -35,10 +35,10 @@ afterAll(async function () {
     await connection.close()
 })
 
-global.signIn = function () {
+global.signIn = function (id?: string) {
     // Build JWT payload
     const payload = {
-        id: new mongoose.Types.ObjectId().toHexString(),
+        id: id || new mongoose.Types.ObjectId().toHexString(),
         email: 'test@gmail.com'
     }
     // Create JWT

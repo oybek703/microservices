@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 import app from './app'
 import {natsWrapper} from './natsWrapper'
+import OrderCreatedListener from './events/listeners/orderCreatedListener'
+import OrderCancelledListener from './events/listeners/orderCancelledListener'
 
 async function start() {
     if(!process.env.JWT_KEY) throw Error('JWT_KEY is not defined!')
@@ -20,13 +22,15 @@ async function start() {
         })
         process.on('SIGINT', natsWrapper.client.close)
         process.on('SIGTERM', natsWrapper.client.close)
+        new OrderCreatedListener(natsWrapper.client).listen()
+        new OrderCancelledListener(natsWrapper.client).listen()
         await mongoose.connect(process.env.MONGO_URI)
         console.log('Successfully connected to MongoDB database!')
     } catch (e) {
         console.log(e)
     }
     app.listen(3000, () => {
-        console.log('Tickets service is running on port 3000...')
+        console.log('Payments service is running on port 3000...')
     })
 }
 

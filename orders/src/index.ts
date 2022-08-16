@@ -32,7 +32,7 @@ async function start() {
         console.log(e)
     }
     app.listen(3000, () => {
-        console.log('Tickets service is running on port 3000...')
+        console.log('Orders service is running on port 3000...')
     })
 }
 

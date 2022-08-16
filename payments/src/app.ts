@@ -2,6 +2,7 @@ import express from 'express'
 import 'express-async-errors'
 import cookieSession from 'cookie-session'
 import {currentUser, errorHandler, NotFoundError} from '@yticketing/common'
+import {createChargeRouter} from './routes/createCharge'
 
 const app = express()
 
@@ -15,6 +16,8 @@ app.use(cookieSession({
 }))
 
 app.use(currentUser)
+
+app.use(createChargeRouter)
 
 app.all('*', async () => {
     throw new NotFoundError()
