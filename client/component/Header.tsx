@@ -7,6 +7,8 @@ const Header = ({currentUser}) => {
     const links = [
         !currentUser && {label: 'Sign Up', href: '/auth/signUp'},
         !currentUser && {label: 'Sign In', href: '/auth/signIn'},
+        currentUser && {label: 'Sell ticket', href: '/tickets/newTicket'},
+        currentUser && {label: 'My Orders', href: '/orders'},
         currentUser && {label: 'Sign Out', href: '/auth/signOut'}
     ].filter(Boolean).map(({label, href}) => <li className='nav-item mx-2'
                                                  key={label}>

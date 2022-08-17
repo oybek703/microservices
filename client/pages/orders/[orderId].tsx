@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {NextPage} from 'next'
 import buildClient from '../../api/buildClient'
 import {IOrder} from '../index'
-import StripeCheckout  from 'react-stripe-checkout'
+import StripeCheckout from 'react-stripe-checkout'
 import {ICurrentUser} from '../_app'
 import useRequest from '../../hooks/useRequest'
 import {useRouter} from 'next/router'
@@ -21,7 +21,10 @@ const OrderDetails: NextPage<IOrderProps> = ({order, currentUser}) => {
         body: {
             orderId: order.id
         },
-        onSuccess: (payment: IOrder) => console.log(payment)
+        onSuccess: async (payment: IOrder) => {
+            console.log(payment)
+            await push('/orders')
+        }
     })
     useEffect(() => {
         const findTimeLeft = () => {
@@ -38,29 +41,37 @@ const OrderDetails: NextPage<IOrderProps> = ({order, currentUser}) => {
         }
     }, [order])
     if (timeLeft < 0) {
-        return <div>Order Expired</div>
+        return <div className="alert alert-danger" role="alert">
+            Order Expired.
+        </div>
     }
     return (
         <div>
             <br/>
-            <div className="card">
-                <div className="card-header">
-                    <h2>Order details</h2>
+            {order.status === 'complete'
+                ? <div className="alert alert-success" role="alert">
+                    <h5 className='card-title'><b>Ticket: </b>{order.ticket.title}</h5>
+                    <hr/>
+                    <div className='font-monospace'>Payment amount {order.ticket.price}$ is successful.</div>
                 </div>
-                <div className="card-body">
-                    <h5 className="card-title">
+                : <div className="card">
+                    <div className="card-header">
+                        <h2>Order details</h2>
+                    </div>
+                    <div className="card-body">
+                        <h5 className="card-title">
                         <span className='fw-semibold'>
                             Time left to pay: &nbsp; {timeLeft}s
                         </span>
-                    </h5>
-                </div>
-                {errors}
-                <StripeCheckout
-                    token={token => makeRequest({token})}
-                    amount={order.ticket.price * 100}
-                    stripeKey={'pk_test_51KZ8QwKUMbKWjip6v99eeuAtKgwQ2eIWks9V2VFhYXfmBK4GoJaIJjggm1nacvmcM4cV9rcHskEhc6KvfTPCkPxj00BnqUWy3D'}
-                    email={currentUser.email}/>
-            </div>
+                        </h5>
+                    </div>
+                    {errors}
+                    <StripeCheckout
+                        token={({id}) => makeRequest({token: id})}
+                        amount={Math.floor(order.ticket.price * 100)}
+                        stripeKey={'pk_test_51KZ8QwKUMbKWjip6v99eeuAtKgwQ2eIWks9V2VFhYXfmBK4GoJaIJjggm1nacvmcM4cV9rcHskEhc6KvfTPCkPxj00BnqUWy3D'}
+                        email={currentUser.email}/>
+                </div>}
         </div>
     )
 }
@@ -69,7 +80,7 @@ OrderDetails.getInitialProps = async function (context) {
     const {orderId} = context.query
     const client = await buildClient({req: context.req})
     const {data} = await client.get(`/api/orders/${orderId}`)
-    const {data: currentUser} = await client.get('/api/users/currentUser')
+    const {data: {currentUser}} = await client.get('/api/users/currentUser')
     return {order: data, currentUser}
 }
 

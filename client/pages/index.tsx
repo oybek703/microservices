@@ -26,11 +26,8 @@ const LandingPage: NextPage<LandingPageProps> = ({tickets}) => {
     return (
         <Fragment>
             <br/>
-            <div className='d-flex justify-content-between align-items-center'>
+            <div className='d-flex align-items-center'>
                 <h1 className='font-monospace'>Tickets </h1>
-                <Link href='/tickets/newTicket'>
-                    <a className='btn btn-success font-monospace'>Add new ticket</a>
-                </Link>
             </div>
             <table className='table table-secondary'>
                 <thead className=''>
