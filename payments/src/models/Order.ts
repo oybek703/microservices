@@ -52,7 +52,7 @@ orderSchema.set('versionKey', 'version')
 orderSchema.plugin(updateIfCurrentPlugin)
 
 orderSchema.statics.findByEvent = function(event: {id: string, version: number}) {
-    return Order.findOne({_id: event.id, version: event.version})
+    return Order.findOne({_id: event.id, version: event.version - 1})
 }
 
 orderSchema.statics.build = function (attrs: OrderAttrs) {

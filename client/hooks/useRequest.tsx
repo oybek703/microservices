@@ -11,10 +11,10 @@ interface UseRequestParams {
 
 function useRequest ({url, method, body, onSuccess }: UseRequestParams) {
     const [errors, setErrors] = useState(null)
-    async function makeRequest() {
+    async function makeRequest(props = {}) {
         try {
             setErrors([])
-            const {data} = await axios[method](url, body)
+            const {data} = await axios[method](url, {...body, ...props})
             if(onSuccess) onSuccess(data)
         } catch (e: any) {
             console.log(e)

@@ -4,6 +4,7 @@ import '../public/css/styles.css'
 import App, {AppContext, AppInitialProps, AppProps} from 'next/app'
 import buildClient from '../api/buildClient'
 import Header from '../component/Header'
+import {NextPageContext} from 'next'
 
 
 export interface ICurrentUser {
@@ -19,7 +20,7 @@ function AppComponent({Component, pageProps, currentUser}: AppProps & AppCompone
     return <>
         <Header currentUser={currentUser}/>
         <div className='container'>
-            <Component {...pageProps}/>
+            <Component currentUser={currentUser} {...pageProps}/>
         </div>
     </>
 }
@@ -27,7 +28,7 @@ function AppComponent({Component, pageProps, currentUser}: AppProps & AppCompone
 AppComponent.getInitialProps = async (appContext: AppContext): Promise<AppInitialProps> => {
     const client = await buildClient({req: appContext.ctx.req})
     const {data} = await client.get('/api/users/currentUser')
-    const ctx = await App.getInitialProps(appContext)
+    let ctx = await App.getInitialProps(appContext)
     return {...ctx, ...data}
 }
 
