@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 import app from './app'
 
 async function start() {
-    console.log('Starting auth service...')
     if(!process.env.JWT_KEY) throw Error('JWT_KEY is not defined!')
     if(!process.env.MONGO_URI) throw Error('MONGO_URI is not defined!')
     try {
