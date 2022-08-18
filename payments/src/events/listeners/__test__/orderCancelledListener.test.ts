@@ -18,7 +18,7 @@ async function setup() {
     }).save()
     const data: OrderCancelledEvent['data'] = {
         id: order.id,
-        version: order.version,
+        version: 1,
         ticket: {
             id: new Types.ObjectId().toHexString()
         }
