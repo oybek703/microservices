@@ -5,7 +5,7 @@ it('should respond with details about the current user', async function () {
     const cookie = await global.signIn()
     const response = await request(app).get('/api/users/currentUser')
         .set('Cookie', cookie)
-        .send().expect(200)
+        .send().expect(400)
     expect(response.body.currentUser.email).toBe('test@gmail.com')
 })
 
