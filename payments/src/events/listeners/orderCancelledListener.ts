@@ -9,7 +9,6 @@ class OrderCancelledListener extends Listener<OrderCancelledEvent>{
 
     async onMessage(data: OrderCancelledEvent['data'], message: Message) {
         const order = await Order.findByEvent(data)
-        console.log(order)
         if(!order) throw new Error('Order not found!')
         order.set({status: OrderStatus.Cancelled})
         await order.save()
